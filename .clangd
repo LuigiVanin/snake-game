@@ -1,0 +1,24 @@
+If:
+  PathMatch: .*\.h
+CompileFlags:
+  Add: [-x, c]
+---
+CompileFlags:
+  Add: [
+    "-std=c23",
+    "-g",
+    "-Wall",
+    "-Wextra",
+    "-I./build/_deps/raylib-build/raylib/include/raylib.h",
+    "-L./build/_deps/raylib-build/raylib/libraylib.a",
+    "-lraylib",
+    "-lm",
+    "-lpthread",
+    "-ldl",
+    "-lX11"
+  ]
+---
+InlayHints:
+  Enabled: Yes
+  ParameterNames: No
+  DeducedTypes: YES
