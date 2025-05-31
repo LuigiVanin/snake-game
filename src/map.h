@@ -2,7 +2,15 @@
 #define MAP_H
 #include "raylib.h"
 
-typedef Vector2 Vector2D;
+typedef struct {
+  int x;
+  int y;
+} Vector2D;
+
+typedef struct {
+  int x;
+  int y;
+} Position;
 
 typedef struct {
   int    count;

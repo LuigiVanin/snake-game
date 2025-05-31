@@ -31,6 +31,7 @@ add_executable(
     src/game.c
     src/map.c 
     src/snake.c
+    src/food.c
     src/array-list/d_array_list.c
 )
 
