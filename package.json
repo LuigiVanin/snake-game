@@ -1,0 +1,22 @@
+{
+  "name": "snake-game",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuigiVanin/snake-game.git"
+  },
+  "author": "Luis Felipe Vanin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LuigiVanin/snake-game/issues"
+  },
+  "homepage": "https://github.com/LuigiVanin/snake-game#readme",
+  "description": "",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
