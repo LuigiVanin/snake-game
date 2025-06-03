@@ -1,16 +1,14 @@
 #ifndef MAP_H
 #define MAP_H
 #include "raylib.h"
+#include <stddef.h>
 
 typedef struct {
   int x;
   int y;
 } Vector2D;
 
-typedef struct {
-  int x;
-  int y;
-} Position;
+typedef struct Vector2D Position;
 
 typedef struct {
   int    count;
@@ -40,5 +38,7 @@ SnakeMap NewSnakeMap(int        width,
                      TileOption tile_options);
 
 SnakeMap InitDefaultSquareMap(int size, int tile_count);
+
+void Map_Draw(SnakeMap this);
 
 #endif

@@ -9,12 +9,12 @@ typedef struct {
   int         update_per_second;
 } SnakeGame;
 
-void KeyboardEventHandler(SnakeGame *this, KeyboardKey key);
+void Game_KeyboardEventHandler(SnakeGame *this, KeyboardKey key);
 
-bool ColisionCheck(SnakeGame this);
+bool Game_ColisionCheck(SnakeGame this);
 
-void IncreaseUpdateCycle(SnakeGame *this);
+void Game_IncreaseUpdateCycle(SnakeGame *this);
 
-bool IsFoodPositionValid(SnakeGame this);
+bool Game_IsFoodPositionValid(SnakeGame this);
 
-void DrawGame(SnakeGame game);
+void Game_Draw(SnakeGame game);

@@ -43,3 +43,17 @@ SnakeMap InitDefaultSquareMap(int size, int tile_count) {
 
   return NewSnakeMap(size, size, count, tile_options);
 }
+
+void Map_Draw(SnakeMap this) {
+  for (size_t i = 0; i < (size_t)this.tile_count.y; i++) {
+    for (size_t j = 0; j < (size_t)this.tile_count.x; j++) {
+      DrawRectangle(                                            //
+        (j * this.tile.width) + (double)this.tile.padding / 2,  //
+        (i * this.tile.height) + (double)this.tile.padding / 2, //
+        this.tile.width - (this.tile.padding),                  //
+        this.tile.height - (this.tile.padding),                 //
+        DARKGRAY                                                //
+      );
+    }
+  }
+}

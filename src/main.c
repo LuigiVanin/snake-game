@@ -1,6 +1,6 @@
-#include "array-list/d_array_list.h"
 #include "food.h"
 #include "game.h"
+#include "gui/pause.h"
 #include "map.h"
 #include "raylib.h"
 #include "snake.h"
@@ -23,8 +23,9 @@ int main(void) {
     window_width, window_height, "raylib [core] example - basic window");
 
   auto map   = InitDefaultSquareMap(game_size, tile_count);
-  auto snake = NewSnakeEntity();
+  auto snake = InitDefaultSnake(map, 3);
   auto food  = NewFoodEntity(max_position);
+  auto pause = NewPauseGui("Game is Paused!");
 
   SnakeGame game = {
     .map               = map,
@@ -32,15 +33,6 @@ int main(void) {
     .food              = food,
     .update_per_second = 3,
   };
-
-  auto snake_nodes = GetArray(SnakeNode, &game.snake.nodes);
-  snake_nodes[0].x = (int)(tile_count / 2);
-  snake_nodes[0].y = (int)(tile_count / 2);
-
-  IncreaseSize(&game.snake);
-  UpdateNodesPosition(&game.snake, max_position);
-  IncreaseSize(&game.snake);
-  UpdateNodesPosition(&game.snake, max_position);
 
   SetTargetFPS(60);
   int       frames = 0;
@@ -58,48 +50,37 @@ int main(void) {
       frames = ((frames + 1) % 61);
 
       if (frames % (int)(60 / game.update_per_second) == 0) {
-        UpdateNodesPosition(&game.snake, max_position);
+        Snake_UpdateNodesPosition(&game.snake, max_position);
       }
 
       KeyboardKey key = GetKeyPressed();
-      if (key != KEY_NULL) KeyboardEventHandler(&game, key);
+      if (key != KEY_NULL) Game_KeyboardEventHandler(&game, key);
 
-      if (ColisionCheck(game)) {
-        IncreaseSize(&game.snake);
+      if (Game_ColisionCheck(game)) {
+        Snake_IncreaseSize(&game.snake);
 
-        GenerateNewPosition(&game.food, max_position);
+        Food_GenerateNewPosition(&game.food, max_position);
 
         // TODO: Improve performance - everytime this check has to be performed
         // the game get stuck for some miliseconds
-        while (!IsFoodPositionValid(game)) {
+        while (!Game_IsFoodPositionValid(game)) {
           printf("current food position: %d %d",
                  game.food.position.x,
                  game.food.position.x);
-          GenerateNewPosition(&game.food, max_position);
+          Food_GenerateNewPosition(&game.food, max_position);
         }
 
-        IncreaseUpdateCycle(&game);
+        Game_IncreaseUpdateCycle(&game);
       }
     }
 
     BeginDrawing();
     ClearBackground(BLACK);
 
-    DrawGame(game);
+    Game_Draw(game);
 
     if (state == PAUSE) {
-      const char *pause_text = "Game is Paused!";
-      auto text_dim = MeasureTextEx(GetFontDefault(), pause_text, 25, 2.1);
-      DrawRectangle(((float)game_size / 2) - (text_dim.x / 2) - 10,
-                    ((float)game_size / 2) - (text_dim.y / 2) - 10,
-                    text_dim.x + 20,
-                    text_dim.y + 20,
-                    BLACK);
-      DrawText(pause_text,
-               ((float)game_size / 2) - (text_dim.x / 2),
-               ((float)game_size / 2) - (text_dim.y / 2),
-               25,
-               WHITE);
+      Pause_Draw(pause, game_size);
     }
 
     EndDrawing();

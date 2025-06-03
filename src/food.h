@@ -9,8 +9,10 @@ typedef struct {
   Color    color;
 } FoodEntity;
 
-void GenerateNewPosition(FoodEntity *this, Vector2D map_size);
-
 FoodEntity NewFoodEntity(Vector2D map_size);
+
+void Food_GenerateNewPosition(FoodEntity *this, Vector2D map_size);
+
+void Food_Draw(FoodEntity this, SnakeMap map);
 
 #endif

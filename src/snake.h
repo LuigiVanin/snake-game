@@ -22,10 +22,14 @@ typedef struct {
 
 SnakeEntity NewSnakeEntity();
 
-void UpdateNodesPosition(SnakeEntity *this, Vector2D map_size);
+SnakeEntity InitDefaultSnake(SnakeMap map, int snake_initial_size);
 
-void UpdateDirection(SnakeEntity *this, Direction dir);
+void Snake_UpdateNodesPosition(SnakeEntity *this, Vector2D map_size);
 
-void IncreaseSize(SnakeEntity *this);
+void Snake_UpdateDirection(SnakeEntity *this, Direction dir);
+
+void Snake_IncreaseSize(SnakeEntity *this);
+
+void Snake_Draw(SnakeEntity this, SnakeMap map);
 
 #endif

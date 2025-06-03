@@ -1,6 +1,7 @@
 #include "snake.h"
 #include "array-list/d_array_list.h"
 #include <raylib.h>
+#include <stddef.h>
 #include <stdio.h>
 // #include "map.h"
 
@@ -22,7 +23,22 @@ SnakeEntity NewSnakeEntity() {
   return snake;
 }
 
-void IncreaseSize(SnakeEntity *this) {
+SnakeEntity InitDefaultSnake(SnakeMap map, int snake_initial_size) {
+  auto this = NewSnakeEntity();
+
+  auto snake_nodes = GetArray(SnakeNode, &this.nodes);
+  snake_nodes[0].x = (int)(map.tile_count.x / 2);
+  snake_nodes[0].y = (int)(map.tile_count.y / 2);
+
+  for (size_t i = 0; i < (size_t)snake_initial_size; i++) {
+    Snake_IncreaseSize(&this);
+    Snake_UpdateNodesPosition(&this, map.tile_count);
+  }
+
+  return this;
+}
+
+void Snake_IncreaseSize(SnakeEntity *this) {
   size_t    head_index = this->nodes.length - 1;
   SnakeNode head       = GetAt(SnakeNode, this->nodes, head_index);
 
@@ -36,7 +52,7 @@ void IncreaseSize(SnakeEntity *this) {
   PushItem(&this->nodes, head);
 }
 
-void UpdateDirection(SnakeEntity *this, Direction dir) {
+void Snake_UpdateDirection(SnakeEntity *this, Direction dir) {
   if (                                           //
     this->direction == dir ||                    //
     (this->direction == LEFT && dir == RIGHT) || //
@@ -48,7 +64,7 @@ void UpdateDirection(SnakeEntity *this, Direction dir) {
   this->direction = dir;
 }
 
-void UpdateNodesPosition(SnakeEntity *this, Vector2D map_size) {
+void Snake_UpdateNodesPosition(SnakeEntity *this, Vector2D map_size) {
   SnakeNode *snake_nodes = GetArray(SnakeNode, &this->nodes);
 
   for (size_t i = 0; i < this->nodes.length; i++) {
@@ -84,4 +100,22 @@ void UpdateNodesPosition(SnakeEntity *this, Vector2D map_size) {
   }
 
   this->impl_prev_direction = this->direction;
+}
+
+void Snake_Draw(SnakeEntity this, SnakeMap map) {
+  auto snake_nodes = GetArray(SnakeNode, &this.nodes);
+
+  for (size_t i = 0; i < this.nodes.length; i++) {
+    auto curr_node    = snake_nodes[i];
+    auto curr_padding = i == this.nodes.length - 1                //
+                          ? map.tile.padding                      //
+                          : map.tile.padding + 2;                 //
+    DrawRectangle(                                                //
+      (curr_node.x * map.tile.width) + (double)curr_padding / 2,  //
+      (curr_node.y * map.tile.height) + (double)curr_padding / 2, //
+      map.tile.width - (curr_padding),                            //
+      map.tile.height - (curr_padding),                           //
+      this.color                                                  //
+    );
+  }
 }
