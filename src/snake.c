@@ -7,10 +7,10 @@
 
 SnakeEntity NewSnakeEntity() {
   SnakeEntity snake = {
-    .nodes               = NewArrayList(SnakeNode),
-    .direction           = RIGHT,
-    .color               = YELLOW,
-    .impl_prev_direction = RIGHT,
+    .nodes          = NewArrayList(SnakeNode),
+    .direction      = RIGHT,
+    .color          = YELLOW,
+    .prev_direction = RIGHT,
   };
 
   SnakeNode first_node = {
@@ -30,7 +30,7 @@ SnakeEntity InitDefaultSnake(SnakeMap map, int snake_initial_size) {
   snake_nodes[0].x = (int)(map.tile_count.x / 2);
   snake_nodes[0].y = (int)(map.tile_count.y / 2);
 
-  for (size_t i = 0; i < (size_t)snake_initial_size; i++) {
+  for (size_t i = 0; i < (size_t)(snake_initial_size - 1); i++) {
     Snake_IncreaseSize(&this);
     Snake_UpdateNodesPosition(&this, map.tile_count);
   }
@@ -42,24 +42,26 @@ void Snake_IncreaseSize(SnakeEntity *this) {
   size_t    head_index = this->nodes.length - 1;
   SnakeNode head       = GetAt(SnakeNode, this->nodes, head_index);
 
-  switch (this->direction) {
-    case RIGHT: head.x++;
-    case LEFT: head.x--;
-    case UP: head.y++;
-    case DOWN: head.y--;
-  }
+  if (this->direction == RIGHT)
+    head.x++;
+  else if (this->direction == LEFT)
+    head.x--;
+  else if (this->direction == UP)
+    head.y++;
+  else if (this->direction == DOWN)
+    head.y--;
 
   PushItem(&this->nodes, head);
 }
 
 void Snake_UpdateDirection(SnakeEntity *this, Direction dir) {
-  if (                                           //
-    this->direction == dir ||                    //
-    (this->direction == LEFT && dir == RIGHT) || //
-    (this->direction == RIGHT && dir == LEFT) || //
-    (this->direction == UP && dir == DOWN) ||    //
-    (this->direction == DOWN && dir == UP)       //
-    )                                            //
+  if (                                                //
+    this->prev_direction == dir ||                    //
+    (this->prev_direction == LEFT && dir == RIGHT) || //
+    (this->prev_direction == RIGHT && dir == LEFT) || //
+    (this->prev_direction == UP && dir == DOWN) ||    //
+    (this->prev_direction == DOWN && dir == UP)       //
+    )                                                 //
     return;
   this->direction = dir;
 }
@@ -99,7 +101,20 @@ void Snake_UpdateNodesPosition(SnakeEntity *this, Vector2D map_size) {
     snake_nodes[i] = snake_nodes[i + 1];
   }
 
-  this->impl_prev_direction = this->direction;
+  this->prev_direction = this->direction;
+}
+
+bool Snake_CheckSelfCollision(SnakeEntity this) {
+  auto nodes = GetArray(SnakeNode, &this.nodes);
+
+  for (size_t i = 0; i < this.nodes.length; i++) {
+    for (size_t j = 0; j < this.nodes.length; j++) {
+      if (i == j) continue;
+      if (nodes[i].x == nodes[j].x && nodes[i].y == nodes[j].y) return true;
+    }
+  }
+
+  return false;
 }
 
 void Snake_Draw(SnakeEntity this, SnakeMap map) {

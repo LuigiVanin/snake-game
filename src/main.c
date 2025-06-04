@@ -5,7 +5,6 @@
 #include "raylib.h"
 #include "snake.h"
 #include <stddef.h>
-#include <stdio.h>
 
 typedef enum {
   PAUSE = 1,
@@ -46,7 +45,7 @@ int main(void) {
     }
 
     if (state != PAUSE) {
-
+      // TODO: Improve frame counting implementation
       frames = ((frames + 1) % 61);
 
       if (frames % (int)(60 / game.update_per_second) == 0) {
@@ -54,19 +53,19 @@ int main(void) {
       }
 
       KeyboardKey key = GetKeyPressed();
+
       if (key != KEY_NULL) Game_KeyboardEventHandler(&game, key);
+
+      if (Snake_CheckSelfCollision(game.snake)) {
+        state = PAUSE;
+      }
 
       if (Game_ColisionCheck(game)) {
         Snake_IncreaseSize(&game.snake);
 
         Food_GenerateNewPosition(&game.food, max_position);
 
-        // TODO: Improve performance - everytime this check has to be performed
-        // the game get stuck for some miliseconds
         while (!Game_IsFoodPositionValid(game)) {
-          printf("current food position: %d %d",
-                 game.food.position.x,
-                 game.food.position.x);
           Food_GenerateNewPosition(&game.food, max_position);
         }
 

@@ -15,7 +15,7 @@ typedef enum { RIGHT = 0, LEFT, UP, DOWN } Direction;
 typedef struct {
   ArrayList nodes;
   Direction direction;
-  Direction impl_prev_direction;
+  Direction prev_direction;
   Color     color;
 
 } SnakeEntity;
@@ -29,6 +29,8 @@ void Snake_UpdateNodesPosition(SnakeEntity *this, Vector2D map_size);
 void Snake_UpdateDirection(SnakeEntity *this, Direction dir);
 
 void Snake_IncreaseSize(SnakeEntity *this);
+
+bool Snake_CheckSelfCollision(SnakeEntity this);
 
 void Snake_Draw(SnakeEntity this, SnakeMap map);
 
