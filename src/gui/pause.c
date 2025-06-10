@@ -22,3 +22,17 @@ void Pause_Draw(Pause this, int game_size) {
            25,
            WHITE);
 }
+
+GameState Pause_Cycle(Pause *this) {
+  return PAUSE;
+}
+
+GameState Pause_HandleEvent(Pause this, KeyboardKey key, GameState state) {
+  if (key == KEY_SPACE) {
+    if (state == RUNNING)
+      return PAUSE;
+    else
+      return RUNNING;
+  }
+  return state;
+}

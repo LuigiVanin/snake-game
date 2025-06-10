@@ -6,11 +6,6 @@
 #include "snake.h"
 #include <stddef.h>
 
-typedef enum {
-  PAUSE = 1,
-  RUNNING,
-} GameState;
-
 int main(void) {
   auto     game_size     = 650;
   auto     window_width  = game_size;
@@ -38,23 +33,19 @@ int main(void) {
   GameState state  = RUNNING;
 
   while (!WindowShouldClose()) {
-    if (IsKeyPressed(KEY_SPACE) && state == RUNNING) {
-      state = PAUSE;
-    } else if (IsKeyPressed(KEY_SPACE) && state == PAUSE) {
-      state = RUNNING;
-    }
+    KeyboardKey key = GetKeyPressed();
 
-    if (state != PAUSE) {
+    state = Pause_HandleEvent(pause, key, state);
+
+    if (state == RUNNING) {
       // TODO: Improve frame counting implementation
       frames = ((frames + 1) % 61);
 
       if (frames % (int)(60 / game.update_per_second) == 0) {
-        Snake_UpdateNodesPosition(&game.snake, max_position);
+        Snake_Move(&game.snake, max_position);
       }
 
-      KeyboardKey key = GetKeyPressed();
-
-      if (key != KEY_NULL) Game_KeyboardEventHandler(&game, key);
+      if (key != KEY_NULL) Game_HandleKeyboardEvent(&game, key);
 
       if (Snake_CheckSelfCollision(game.snake)) {
         state = PAUSE;
@@ -71,6 +62,8 @@ int main(void) {
 
         Game_IncreaseUpdateCycle(&game);
       }
+    } else if (state == PAUSE) {
+      state = Pause_Cycle(&pause);
     }
 
     BeginDrawing();
@@ -78,6 +71,7 @@ int main(void) {
 
     Game_Draw(game);
 
+    // DRAW GUI
     if (state == PAUSE) {
       Pause_Draw(pause, game_size);
     }

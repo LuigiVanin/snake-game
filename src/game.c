@@ -1,5 +1,3 @@
-#ifndef GAME_H
-#define GAME_H
 #include "game.h"
 #include "array-list/d_array_list.h"
 #include "food.h"
@@ -14,7 +12,7 @@ void Game_Draw(SnakeGame this) {
   Food_Draw(this.food, this.map);
 }
 
-void Game_KeyboardEventHandler(SnakeGame *this, KeyboardKey key) {
+void Game_HandleKeyboardEvent(SnakeGame *this, KeyboardKey key) {
   if (key == KEY_A || key == KEY_LEFT)
     Snake_UpdateDirection(&this->snake, LEFT);
   else if (key == KEY_D || key == KEY_RIGHT)
@@ -52,4 +50,3 @@ bool Game_IsFoodPositionValid(SnakeGame this) {
 
   return true;
 }
-#endif

@@ -24,7 +24,7 @@ SnakeEntity NewSnakeEntity();
 
 SnakeEntity InitDefaultSnake(SnakeMap map, int snake_initial_size);
 
-void Snake_UpdateNodesPosition(SnakeEntity *this, Vector2D map_size);
+void Snake_Move(SnakeEntity *this, Vector2D map_size);
 
 void Snake_UpdateDirection(SnakeEntity *this, Direction dir);
 

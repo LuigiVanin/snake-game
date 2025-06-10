@@ -32,7 +32,7 @@ SnakeEntity InitDefaultSnake(SnakeMap map, int snake_initial_size) {
 
   for (size_t i = 0; i < (size_t)(snake_initial_size - 1); i++) {
     Snake_IncreaseSize(&this);
-    Snake_UpdateNodesPosition(&this, map.tile_count);
+    Snake_Move(&this, map.tile_count);
   }
 
   return this;
@@ -66,7 +66,7 @@ void Snake_UpdateDirection(SnakeEntity *this, Direction dir) {
   this->direction = dir;
 }
 
-void Snake_UpdateNodesPosition(SnakeEntity *this, Vector2D map_size) {
+void Snake_Move(SnakeEntity *this, Vector2D map_size) {
   SnakeNode *snake_nodes = GetArray(SnakeNode, &this->nodes);
 
   for (size_t i = 0; i < this->nodes.length; i++) {
