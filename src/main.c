@@ -10,7 +10,7 @@ int main(void) {
   auto     game_size     = 650;
   auto     window_width  = game_size;
   auto     window_height = game_size;
-  auto     tile_count    = 15;
+  auto     tile_count    = 20;
   Vector2D max_position  = {tile_count, tile_count};
 
   InitWindow(
@@ -19,7 +19,7 @@ int main(void) {
   auto map   = InitDefaultSquareMap(game_size, tile_count);
   auto snake = InitDefaultSnake(map, 3);
   auto food  = NewFoodEntity(max_position);
-  auto pause = NewPauseGui("Game is Paused!", NewVector2D(300, 450));
+  auto pause = NewPauseGui("Game is Paused!", NewVector2D(300, 200));
   auto game  = NewGame(map, snake, food);
 
   SetTargetFPS(60);
@@ -32,7 +32,7 @@ int main(void) {
       Game_Cycle(&game, key, max_position);
 
     } else if (game.state == PAUSE) {
-      game.state = Pause_Cycle(&pause);
+      game.state = Pause_Cycle(&pause, key);
     }
 
     BeginDrawing();
