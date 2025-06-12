@@ -8,6 +8,8 @@ typedef struct {
   int y;
 } Vector2D;
 
+Vector2D NewVector2D(int x, int y);
+
 typedef struct Vector2D Position;
 
 typedef struct {

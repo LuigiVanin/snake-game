@@ -6,6 +6,19 @@
 #include <raylib.h>
 #include <stddef.h>
 
+SnakeGame NewGame(SnakeMap map, SnakeEntity snake, FoodEntity food) {
+  SnakeGame game = {
+    .map               = map,
+    .snake             = snake,
+    .food              = food,
+    .state             = RUNNING,
+    .update_per_second = 3,
+    .tick              = 0,
+  };
+
+  return game;
+}
+
 void Game_Draw(SnakeGame this) {
   Map_Draw(this.map);
   Snake_Draw(this.snake, this.map);
@@ -49,4 +62,31 @@ bool Game_IsFoodPositionValid(SnakeGame this) {
   }
 
   return true;
+}
+
+void Game_Cycle(SnakeGame *game, KeyboardKey key, Vector2D max_position) {
+  // TODO: Improve frame counting implementation
+  game->tick = ((game->tick + 1) % 61);
+
+  if (game->tick % (int)(60 / game->update_per_second) == 0) {
+    Snake_Move(&game->snake, max_position);
+  }
+
+  if (key != KEY_NULL) Game_HandleKeyboardEvent(game, key);
+
+  if (Snake_CheckSelfCollision(game->snake)) {
+    game->state = PAUSE;
+  }
+
+  if (Game_ColisionCheck(*game)) {
+    Snake_IncreaseSize(&game->snake);
+
+    Food_GenerateNewPosition(&game->food, max_position);
+
+    while (!Game_IsFoodPositionValid(*game)) {
+      Food_GenerateNewPosition(&game->food, max_position);
+    }
+
+    Game_IncreaseUpdateCycle(game);
+  }
 }

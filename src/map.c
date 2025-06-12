@@ -1,5 +1,14 @@
 #include "map.h"
 
+Vector2D NewVector2D(int x, int y) {
+  Vector2D vector = {
+    .x = x,
+    .y = y,
+  };
+
+  return vector;
+}
+
 TileOption NewTileOption(int    tile_count,
                          double tile_width,
                          double tile_height,

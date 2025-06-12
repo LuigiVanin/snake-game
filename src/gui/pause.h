@@ -3,16 +3,17 @@
 #include "../game.h"
 
 typedef struct {
-  const char *title;
-  const int   tick;
+  const char        *title;
+  const unsigned int tick;
+  Vector2D           size;
 } Pause;
 
-Pause NewPauseGui(const char *title);
+Pause NewPauseGui(const char *title, Vector2D size);
 
 void Pause_Draw(Pause this, int game_size);
 
 GameState Pause_Cycle(Pause *this);
 
-GameState Pause_HandleEvent(Pause this, KeyboardKey key, GameState state);
+void Pause_HandleEvent(Pause this, SnakeGame *game, KeyboardKey key);
 
 #endif

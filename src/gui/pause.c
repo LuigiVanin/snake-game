@@ -1,8 +1,12 @@
 #include "pause.h"
 #include <raylib.h>
 
-Pause NewPauseGui(const char *title) {
-  Pause element = {.title = title};
+Pause NewPauseGui(const char *title, Vector2D size) {
+  Pause element = {
+    .title = title,
+    .size  = size,
+    .tick  = 0,
+  };
 
   return element;
 }
@@ -27,12 +31,11 @@ GameState Pause_Cycle(Pause *this) {
   return PAUSE;
 }
 
-GameState Pause_HandleEvent(Pause this, KeyboardKey key, GameState state) {
+void Pause_HandleEvent(Pause this, SnakeGame *game, KeyboardKey key) {
   if (key == KEY_SPACE) {
-    if (state == RUNNING)
-      return PAUSE;
+    if (game->state == RUNNING)
+      game->state = PAUSE;
     else
-      return RUNNING;
+      game->state = RUNNING;
   }
-  return state;
 }

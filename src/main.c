@@ -10,7 +10,7 @@ int main(void) {
   auto     game_size     = 650;
   auto     window_width  = game_size;
   auto     window_height = game_size;
-  int      tile_count    = 15;
+  auto     tile_count    = 15;
   Vector2D max_position  = {tile_count, tile_count};
 
   InitWindow(
@@ -19,51 +19,20 @@ int main(void) {
   auto map   = InitDefaultSquareMap(game_size, tile_count);
   auto snake = InitDefaultSnake(map, 3);
   auto food  = NewFoodEntity(max_position);
-  auto pause = NewPauseGui("Game is Paused!");
-
-  SnakeGame game = {
-    .map               = map,
-    .snake             = snake,
-    .food              = food,
-    .update_per_second = 3,
-  };
+  auto pause = NewPauseGui("Game is Paused!", NewVector2D(300, 450));
+  auto game  = NewGame(map, snake, food);
 
   SetTargetFPS(60);
-  int       frames = 0;
-  GameState state  = RUNNING;
 
   while (!WindowShouldClose()) {
     KeyboardKey key = GetKeyPressed();
+    Pause_HandleEvent(pause, &game, key);
 
-    state = Pause_HandleEvent(pause, key, state);
+    if (game.state == RUNNING) {
+      Game_Cycle(&game, key, max_position);
 
-    if (state == RUNNING) {
-      // TODO: Improve frame counting implementation
-      frames = ((frames + 1) % 61);
-
-      if (frames % (int)(60 / game.update_per_second) == 0) {
-        Snake_Move(&game.snake, max_position);
-      }
-
-      if (key != KEY_NULL) Game_HandleKeyboardEvent(&game, key);
-
-      if (Snake_CheckSelfCollision(game.snake)) {
-        state = PAUSE;
-      }
-
-      if (Game_ColisionCheck(game)) {
-        Snake_IncreaseSize(&game.snake);
-
-        Food_GenerateNewPosition(&game.food, max_position);
-
-        while (!Game_IsFoodPositionValid(game)) {
-          Food_GenerateNewPosition(&game.food, max_position);
-        }
-
-        Game_IncreaseUpdateCycle(&game);
-      }
-    } else if (state == PAUSE) {
-      state = Pause_Cycle(&pause);
+    } else if (game.state == PAUSE) {
+      game.state = Pause_Cycle(&pause);
     }
 
     BeginDrawing();
@@ -72,7 +41,7 @@ int main(void) {
     Game_Draw(game);
 
     // DRAW GUI
-    if (state == PAUSE) {
+    if (game.state == PAUSE) {
       Pause_Draw(pause, game_size);
     }
 
