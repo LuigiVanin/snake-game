@@ -33,6 +33,7 @@ add_executable(
     src/snake.c
     src/food.c
     src/gui/pause.c
+    src/gui/menu.c
     src/array-list/d_array_list.c
 )
 
