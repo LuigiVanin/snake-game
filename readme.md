@@ -5,6 +5,12 @@ A classic Snake game implementation written entirely in C using the Raylib graph
 > [!WARNING] 
 > This game was developed in the Linux operating System, compatibility with the windows sytem is not suported :/
 
+## Preview
+
+<p align="center">
+<image src="./assets/snake-game-demo.gif" width="600px">
+</p>
+
 ## Features
 
 - **Classic Snake Gameplay**: Control the snake to eat food and grow longer
