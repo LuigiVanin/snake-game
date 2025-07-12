@@ -68,7 +68,7 @@ void Game_Cycle(SnakeGame *game, KeyboardKey key, Vector2D max_position) {
   // TODO: Improve frame counting implementation
   game->tick = ((game->tick + 1) % 61);
 
-  if (game->tick % (int)(60 / game->update_per_second) == 0) {
+  if (!!game->tick && game->tick % (int)(60 / game->update_per_second) == 0) {
     Snake_Move(&game->snake, max_position);
   }
 
@@ -89,4 +89,7 @@ void Game_Cycle(SnakeGame *game, KeyboardKey key, Vector2D max_position) {
 
     Game_IncreaseUpdateCycle(game);
   }
+}
+
+void Game_Reset(SnakeGame *game) {
 }

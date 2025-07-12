@@ -34,4 +34,6 @@ bool Game_IsFoodPositionValid(SnakeGame this);
 void Game_Draw(SnakeGame game);
 
 void Game_Cycle(SnakeGame *game, KeyboardKey key, Vector2D max_position);
+
+void Game_Reset(SnakeGame *game);
 #endif
