@@ -48,10 +48,14 @@ int main(void) {
       } else if (game.state == QUIT) {
         current_game_scene = MENU;
         game.state         = RUNNING;
+        Game_Reset(&game);
       }
     } else if (current_game_scene == MENU) {
       menu_select = Menu_Cycle(&menu, key);
-      if (menu_select == NEW) current_game_scene = GAME;
+      if (menu_select == NEW) {
+        Game_Reset(&game);
+        current_game_scene = GAME;
+      }
       if (menu_select == QUIT_GAME) {
         CloseWindow();
         return 0;

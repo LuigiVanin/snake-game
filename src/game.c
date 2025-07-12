@@ -5,6 +5,7 @@
 #include "snake.h"
 #include <raylib.h>
 #include <stddef.h>
+#include <stdlib.h>
 
 SnakeGame NewGame(SnakeMap map, SnakeEntity snake, FoodEntity food) {
   SnakeGame game = {
@@ -91,5 +92,12 @@ void Game_Cycle(SnakeGame *game, KeyboardKey key, Vector2D max_position) {
   }
 }
 
-void Game_Reset(SnakeGame *game) {
+void Game_Reset(SnakeGame *this) {
+  if (this->snake.nodes.length <= 3) return;
+  auto snake = InitDefaultSnake(this->map, 3);
+
+  this->snake             = snake;
+  this->state             = RUNNING;
+  this->tick              = 0;
+  this->update_per_second = 3;
 }
