@@ -23,6 +23,8 @@ typedef struct {
 
 SnakeGame NewGame(SnakeMap map, SnakeEntity snake, FoodEntity food);
 
+SnakeGame InitDefaultGame(int game_window_size, int tile_count);
+
 void Game_HandleKeyboardEvent(SnakeGame *this, KeyboardKey key);
 
 bool Game_ColisionCheck(SnakeGame this);

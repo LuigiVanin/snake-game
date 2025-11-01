@@ -20,6 +20,18 @@ SnakeGame NewGame(SnakeMap map, SnakeEntity snake, FoodEntity food) {
   return game;
 }
 
+SnakeGame InitDefaultGame(int game_window_size, int tile_count) {
+  Vector2D max_position = {tile_count, tile_count};
+
+  auto map   = InitDefaultSquareMap(game_window_size, tile_count);
+  auto snake = InitDefaultSnake(map, 3);
+  auto food  = NewFoodEntity(max_position);
+
+  auto game = NewGame(map, snake, food);
+
+  return game;
+}
+
 void Game_Draw(SnakeGame this) {
   Map_Draw(this.map);
   Snake_Draw(this.snake, this.map);

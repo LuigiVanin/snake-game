@@ -10,6 +10,7 @@ typedef struct {
   const char         *title;
   unsigned int        tick;
   GameOverOptionIndex current;
+
 } GameOverMenu;
 
 GameOverMenu NewGameOverMenu(const char *title, Vector2D size);

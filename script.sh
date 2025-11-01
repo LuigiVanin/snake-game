@@ -25,7 +25,7 @@ elif [ "$action" = "--run" ]; then
 
 else 
   # Default action: configure, build, and run
-  echo "Configuring CMake with: -D CMAKE_C_COMPILER=clang ${debug_opt} . -B ./build (default action)"
+  echo "Configuring CMa'ke with: -D CMAKE_C_COMPILER=clang ${debug_opt} . -B ./build (default action)"
   cmake -D CMAKE_C_COMPILER=clang ${debug_opt} . -B ./build
   
   make -C ./build  
