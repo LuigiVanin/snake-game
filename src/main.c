@@ -1,5 +1,6 @@
 #include "food.h"
 #include "game.h"
+#include "gui/game_over.h"
 #include "gui/menu.h"
 #include "gui/pause.h"
 #include "map.h"
@@ -24,12 +25,14 @@ int main(void) {
   InitWindow(
     window_width, window_height, "raylib [core] example - basic window");
 
-  auto       menu  = NewMenu("Snake Game!!");
-  auto       map   = InitDefaultSquareMap(game_size, tile_count);
-  auto       snake = InitDefaultSnake(map, 3);
-  auto       food  = NewFoodEntity(max_position);
-  auto       pause = NewPauseGui("Game is Paused!", NewVector2D(300, 200));
-  auto       game  = NewGame(map, snake, food);
+  auto menu  = NewMenu("Snake Game!!");
+  auto map   = InitDefaultSquareMap(game_size, tile_count);
+  auto snake = InitDefaultSnake(map, 3);
+  auto food  = NewFoodEntity(max_position);
+  auto pause = NewPauseGui("Game is Paused!", NewVector2D(300, 200));
+  auto game_over_menu =
+    NewGameOverMenu("The Game is over", NewVector2D(300, 200));
+  auto       game        = NewGame(map, snake, food);
   MenuOption menu_select = NONE;
 
   SetTargetFPS(60);
@@ -45,6 +48,8 @@ int main(void) {
 
       } else if (game.state == PAUSE) {
         game.state = Pause_Cycle(&pause, key);
+      } else if (game.state == OVER) {
+        game.state = GameOverMenu_Cycle(&game_over_menu, key);
       } else if (game.state == QUIT) {
         current_game_scene = MENU;
         game.state         = RUNNING;
@@ -71,7 +76,10 @@ int main(void) {
       // DRAW GUI
       if (game.state == PAUSE) {
         Pause_Draw(pause, game_size);
+      } else if (game.state == OVER) {
+        GameOverMenu_Draw(game_over_menu, game_size);
       }
+
     } else if (current_game_scene == MENU) {
       Menu_Draw(menu, game_size);
     }

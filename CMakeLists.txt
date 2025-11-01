@@ -34,6 +34,7 @@ add_executable(
     src/food.c
     src/gui/pause.c
     src/gui/menu.c
+    src/gui/game_over.c
     src/array-list/d_array_list.c
 )
 

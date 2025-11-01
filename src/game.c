@@ -76,7 +76,7 @@ void Game_Cycle(SnakeGame *game, KeyboardKey key, Vector2D max_position) {
   if (key != KEY_NULL) Game_HandleKeyboardEvent(game, key);
 
   if (Snake_CheckSelfCollision(game->snake)) {
-    game->state = PAUSE;
+    game->state = OVER;
   }
 
   if (Game_ColisionCheck(*game)) {
