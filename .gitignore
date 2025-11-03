@@ -1,8 +1,3 @@
 build/
 node_modules/
 build-web/*
-!index.html
-!snake_game.html
-!snake_game.js
-!snake_game.wasm
-!snake_game.data
