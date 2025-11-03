@@ -5,7 +5,19 @@ A classic Snake game implementation written entirely in C using the Raylib graph
 > [!WARNING] 
 > This game was developed in the Linux operating System, compatibility with the windows sytem is not suported :/
 
+
 ## Preview
+
+
+> [!NOTE] 
+> More info about the web assembly build read the [web_build.md](./web_build.md) and looking on the [web build branch](https://github.com/LuigiVanin/snake-game/tree/snake-game-web). 
+
+<h3 align="center">
+  <a href="https://luigivanin.github.io/snake-game/"><< WEB DEMO >></a>
+</h3>
+
+<br />
+
 
 <p align="center">
 <image src="./assets/snake-game-demo.gif" width="600px">

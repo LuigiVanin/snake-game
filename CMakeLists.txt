@@ -4,6 +4,14 @@ project(snake_game C)
 set(CMAKE_C_STANDARD 23) 
 set(CMAKE_C_STANDARD_REQUIRED True)
 
+# Platform detection for WebAssembly
+if (DEFINED PLATFORM)
+    if (PLATFORM STREQUAL "Web")
+        set(WEB TRUE)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_GLFW=3")
+    endif()
+endif()
+
 include(FetchContent)
 
 function(add_git_dependency libName gitURL gitTag)
@@ -41,3 +49,22 @@ add_executable(
 # Link against the imported target provided by find_package
 # This automatically handles include directories and library paths
 target_link_libraries(snake_game PRIVATE raylib)
+
+# WebAssembly specific settings
+if (WEB)
+    set(CMAKE_EXECUTABLE_SUFFIX ".html")
+    
+    # Set WebAssembly-specific compiler and linker flags
+    set_target_properties(snake_game PROPERTIES
+        LINK_FLAGS "-s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1 --shell-file ${CMAKE_SOURCE_DIR}/shell.html"
+    )
+    
+    # Additional optimization flags for release builds
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_link_options(snake_game PRIVATE
+            -O3
+            -s ALLOW_MEMORY_GROWTH=1
+        )
+    endif()
+
+endif()
