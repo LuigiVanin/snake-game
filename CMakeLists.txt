@@ -66,13 +66,5 @@ if (WEB)
             -s ALLOW_MEMORY_GROWTH=1
         )
     endif()
-    
-    # For debugging
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        target_link_options(snake_game PRIVATE
-            -g
-            -s ASSERTIONS=2
-            -s SAFE_HEAP=1
-        )
-    endif()
+
 endif()
