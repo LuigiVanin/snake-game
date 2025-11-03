@@ -12,19 +12,9 @@ A classic Snake game implementation written entirely in C using the Raylib graph
 > [!NOTE] 
 > More info about the web assembly build read the [web_build.md](./web_build.md) and looking on the [web build branch](https://github.com/LuigiVanin/snake-game/tree/snake-game-web). 
 
-<a href="https://luigivanin.github.io/snake-game/">
-
 <h3 align="center">
-
-<strong>
-  
-  << Web Demo >>
-
-</strong>
-
+  <a href="https://luigivanin.github.io/snake-game/"><< WEB DEMOP >></a>
 </h3>
-
-</a>
 
 <br />
 
